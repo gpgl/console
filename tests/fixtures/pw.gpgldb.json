@@ -1,0 +1,10 @@
+{
+    "first": {
+        "username": "jeff",
+        "password": "pass"
+    },
+    "second": {
+        "username": "puck",
+        "password": "P@55"
+    }
+}

@@ -1,0 +1,33 @@
+#!/usr/bin/env php
+<?php
+
+namespace gpgl\console;
+
+if(file_exists(__DIR__.'/../../../autoload.php')){
+	require_once __DIR__.'/../../../autoload.php';
+} else {
+	require_once __DIR__.'/../vendor/autoload.php';
+}
+
+use Symfony\Component\Console\Application;
+
+$logo = '
+                        _
+       __ _ _ __   __ _| |
+      / _` | \'_ \\ / _` | |
+     | (_| | |_) | (_| | |
+      \\__, | .__/ \\__, |_|
+      |___/|_|    |___/
+
+';
+
+// ASCII art logo:
+// http://www.patorjk.com/software/taag/#p=display&f=Ivrit&t=passlock
+
+$version = $version ?? 'dev';
+
+$app = new Application($logo, $version);
+
+$app->add(new Commands\Index);
+
+$app->run();

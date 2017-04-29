@@ -1,0 +1,5 @@
+/vendor/
+/phpunit.xml
+/tests/coverage/
+.gpgldb
+*.gpg
