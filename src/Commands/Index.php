@@ -4,6 +4,7 @@ namespace gpgl\console\Commands;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use gpgl\core\DatabaseManagementSystem;
 
@@ -20,12 +21,20 @@ class Index extends Command {
             // the full command description shown when running the command with
             // the "--help" option
             ->setHelp('This shows the index of names for all values saved.')
+
+            ->addOption(
+                'database',
+                'd',
+                InputOption::VALUE_REQUIRED,
+                'Filename for database',
+                getenv('GPGL_DB') ?: getenv('HOME').'/.gpgldb'
+            )
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $db = getenv('GPGL_DB');
+        $db = $input->getOption('database');
         $dbms = new DatabaseManagementSystem($db);
         $index = implode(PHP_EOL, $dbms->index());
         $output->writeln("<info>$index</info>");

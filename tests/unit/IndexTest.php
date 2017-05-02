@@ -48,4 +48,23 @@ class IndexTest extends TestCase
         $this->assertContains('two', $output);
         $this->assertNotContains('nada', $output);
     }
+
+    public function test_shows_index_nopw()
+    {
+        $app = new Application;
+        $app->add(new Index);
+
+        $command = $app->find('index');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute(array(
+            'command'  => $command->getName(),
+            '--database' => $this->filename_nopw,
+        ));
+
+        $output = $commandTester->getDisplay();
+        $this->assertContains('one', $output);
+        $this->assertNotContains('nopw', $output);
+        $this->assertContains('two', $output);
+        $this->assertNotContains('nada', $output);
+    }
 }
