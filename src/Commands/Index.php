@@ -5,7 +5,7 @@ namespace gpgl\console\Commands;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use gpgl\core\Database;
+use gpgl\core\DatabaseManagementSystem;
 
 class Index extends Command {
     protected function configure()
@@ -25,8 +25,9 @@ class Index extends Command {
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $db = new Database;
-        $index = implode(PHP_EOL, $db->index());
+        $db = getenv('GPGL_DB');
+        $dbms = new DatabaseManagementSystem($db);
+        $index = implode(PHP_EOL, $dbms->index());
         $output->writeln("<info>$index</info>");
     }
 }

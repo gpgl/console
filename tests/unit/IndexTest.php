@@ -30,7 +30,7 @@ class IndexTest extends TestCase
         file_put_contents($this->filename_nopw, $this->database_nopw);
     }
 
-    public function test_shows_index()
+    public function test_shows_index_nopw_from_env()
     {
         putenv("GPGL_DB={$this->filename_nopw}");
         $app = new Application;
