@@ -29,5 +29,6 @@ $version = $version ?? 'dev';
 $app = new Application($logo, $version);
 
 $app->add(new Commands\Index);
+$app->add(new Commands\Create);
 
 $app->run();
