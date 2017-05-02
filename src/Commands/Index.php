@@ -5,8 +5,10 @@ namespace gpgl\console\Commands;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Output\OutputInterface;
 use gpgl\core\DatabaseManagementSystem;
+use Crypt_GPG_BadPassphraseException;
 
 class Index extends Command {
     protected function configure()
@@ -35,7 +37,22 @@ class Index extends Command {
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $db = $input->getOption('database');
-        $dbms = new DatabaseManagementSystem($db);
+
+        try {
+            $dbms = new DatabaseManagementSystem($db);
+        }
+
+        catch (Crypt_GPG_BadPassphraseException $ex) {
+            $helper = $this->getHelper('question');
+
+            $question = new Question('Please enter your password: ');
+            $question->setHidden(true);
+
+            $password = $helper->ask($input, $output, $question);
+
+            $dbms = new DatabaseManagementSystem($db, $password);
+        }
+
         $index = implode(PHP_EOL, $dbms->index());
         $output->writeln("<info>$index</info>");
     }

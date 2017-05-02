@@ -67,4 +67,40 @@ class IndexTest extends TestCase
         $this->assertContains('two', $output);
         $this->assertNotContains('nada', $output);
     }
+
+    public function test_shows_index_pw()
+    {
+        $app = new Application;
+        $app->add(new Index);
+
+        $command = $app->find('index');
+        $commandTester = new CommandTester($command);
+        $commandTester->setInputs([$this->password]);
+        $commandTester->execute(array(
+            'command'  => $command->getName(),
+            '--database' => $this->filename_pw,
+        ));
+
+        $output = $commandTester->getDisplay();
+        $this->assertContains('first', $output);
+        $this->assertContains('second', $output);
+        $this->assertNotContains('P@55', $output);
+    }
+
+    /**
+     * @expectedException Crypt_GPG_BadPassphraseException
+     */
+    public function test_rejects_bad_password()
+    {
+        $app = new Application;
+        $app->add(new Index);
+
+        $command = $app->find('index');
+        $commandTester = new CommandTester($command);
+        $commandTester->setInputs(['bad password']);
+        $commandTester->execute(array(
+            'command'  => $command->getName(),
+            '--database' => $this->filename_pw,
+        ));
+    }
 }
