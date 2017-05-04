@@ -31,12 +31,21 @@ class Index extends Command {
                 'Filename for database',
                 getenv('GPGL_DB') ?: getenv('HOME').'/.gpgldb'
             )
+
+            ->addOption(
+                'limit',
+                'l',
+                InputOption::VALUE_REQUIRED,
+                'Depth level limit to recursively show indexes',
+                1
+            )
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $db = $input->getOption('database');
+        $limit = $input->getOption('limit');
 
         try {
             $dbms = new DatabaseManagementSystem($db);
@@ -53,7 +62,7 @@ class Index extends Command {
             $dbms = new DatabaseManagementSystem($db, $password);
         }
 
-        $index = implode(PHP_EOL, $dbms->index());
+        $index = json_encode($dbms->index($limit), JSON_PRETTY_PRINT);
         $output->writeln("<info>$index</info>");
     }
 }

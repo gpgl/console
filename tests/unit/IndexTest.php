@@ -8,7 +8,9 @@ use gpgl\console\Commands\Index;
 class IndexTest extends TestCase
 {
     protected $filename_pw = __DIR__.'/../fixtures/pw.gpgldb';
+    protected $filename_pw_deep = __DIR__.'/../fixtures/pw.deep.gpgldb';
     protected $database_pw;
+    protected $database_pw_deep;
     protected $key_pw = 'jeff@example.com';
     protected $password = 'password';
 
@@ -20,6 +22,7 @@ class IndexTest extends TestCase
     {
         putenv('GPGL_DB');
         $this->database_pw = file_get_contents($this->filename_pw);
+        $this->database_pw_deep = file_get_contents($this->filename_pw_deep);
         $this->database_nopw = file_get_contents($this->filename_nopw);
     }
 
@@ -27,6 +30,7 @@ class IndexTest extends TestCase
     {
         putenv('GPGL_DB');
         file_put_contents($this->filename_pw, $this->database_pw);
+        file_put_contents($this->filename_pw_deep, $this->database_pw_deep);
         file_put_contents($this->filename_nopw, $this->database_nopw);
     }
 
@@ -102,5 +106,54 @@ class IndexTest extends TestCase
             'command'  => $command->getName(),
             '--database' => $this->filename_pw,
         ));
+    }
+
+    public function test_shows_index_level_without_limit()
+    {
+        $app = new Application;
+        $app->add(new Index);
+
+        $command = $app->find('index');
+        $commandTester = new CommandTester($command);
+        $commandTester->setInputs([$this->password]);
+        $commandTester->execute(array(
+            'command'  => $command->getName(),
+            '--database' => $this->filename_pw,
+            '--limit' => 0,
+        ));
+
+        $output = $commandTester->getDisplay();
+        $this->assertContains('first', $output);
+        $this->assertContains('username', $output);
+        $this->assertContains('password', $output);
+        $this->assertContains('second', $output);
+        $this->assertNotContains('P@55', $output);
+    }
+
+    public function test_shows_index_level_with_limit()
+    {
+        $app = new Application;
+        $app->add(new Index);
+
+        $command = $app->find('index');
+        $commandTester = new CommandTester($command);
+        $commandTester->setInputs([$this->password]);
+        $commandTester->execute(array(
+            'command'  => $command->getName(),
+            '--database' => $this->filename_pw_deep,
+            '--limit' => 2,
+        ));
+
+        $output = $commandTester->getDisplay();
+        $this->assertContains('uno', $output);
+        $this->assertContains('username', $output);
+        $this->assertContains('password', $output);
+        $this->assertContains('dos', $output);
+        $this->assertContains('everything', $output);
+        $this->assertContains('something', $output);
+        $this->assertContains('anything', $output);
+        $this->assertContains('nothing', $output);
+        $this->assertNotContains('hither', $output);
+        $this->assertNotContains('dither', $output);
     }
 }
