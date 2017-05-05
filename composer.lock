@@ -4,16 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "c8e527f74b1176bacac40dc41f6b165a",
+    "content-hash": "2b57583c97a51dfef2da0531f0d524ad",
     "packages": [
         {
             "name": "gpgl/core",
-            "version": "dev-dev",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gpgl/core.git",
+                "reference": "9392fd503334832fb49bdd245970510192d03079"
+            },
             "dist": {
-                "type": "path",
-                "url": "../core",
-                "reference": "72c09239a2624cb560df582d53eade12b688958e",
-                "shasum": null
+                "type": "zip",
+                "url": "https://api.github.com/repos/gpgl/core/zipball/9392fd503334832fb49bdd245970510192d03079",
+                "reference": "9392fd503334832fb49bdd245970510192d03079",
+                "shasum": ""
             },
             "require": {
                 "pear/crypt_gpg": "^1.6",
@@ -28,6 +33,7 @@
                     "gpgl\\core\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-3.0+"
             ],
@@ -38,9 +44,7 @@
                 }
             ],
             "description": "Core library for the GPL PHP GPG Locker.",
-            "transport-options": {
-                "symlink": false
-            }
+            "time": "2017-05-05T20:35:11+00:00"
         },
         {
             "name": "pear/console_commandline",
@@ -1892,9 +1896,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "gpgl/core": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

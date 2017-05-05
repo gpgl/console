@@ -11,17 +11,8 @@
     "bin": ["bin/gpgl"],
     "require": {
         "symfony/console": "^3.2",
-        "gpgl/core": "dev-dev"
+        "gpgl/core": "^0.1"
     },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../core",
-            "options": {
-                "symlink": false
-            }
-        }
-    ],
     "autoload": {
         "psr-4": {
             "gpgl\\console\\": "src/"
