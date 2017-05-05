@@ -46,9 +46,18 @@ class Set extends Command {
         $value = $input->getArgument('value');
         $at = $input->getArgument('index');
 
+        $io = new SymfonyStyle($input, $output);
+
+        if (!empty($dbms->get(...$at))) {
+            $question = "There is already a value saved under this index.\n ";
+            $question .= 'Are you sure you want to overwrite?';
+            if (!$io->confirm($question, false)) {
+                return $io->note('Value not saved.');;
+            }
+        }
+
         $dbms->set($value, ...$at)->export();
 
-        $io = new SymfonyStyle($input, $output);
         $io->success('Value Saved');
     }
 }
