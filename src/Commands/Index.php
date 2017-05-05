@@ -4,6 +4,7 @@ namespace gpgl\console\Commands;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -39,6 +40,12 @@ class Index extends Command {
                 'Depth level limit to recursively show indexes',
                 1
             )
+
+            ->addArgument(
+                'index',
+                InputArgument::IS_ARRAY | InputArgument::OPTIONAL,
+                'Starting index from which to show sub-indicies'
+            )
         ;
     }
 
@@ -46,6 +53,7 @@ class Index extends Command {
     {
         $db = $input->getOption('database');
         $limit = $input->getOption('limit');
+        $from = $input->getArgument('index');
 
         try {
             $dbms = new DatabaseManagementSystem($db);
@@ -62,7 +70,7 @@ class Index extends Command {
             $dbms = new DatabaseManagementSystem($db, $password);
         }
 
-        $index = json_encode($dbms->index($limit), JSON_PRETTY_PRINT);
+        $index = json_encode($dbms->index($limit, ...$from), JSON_PRETTY_PRINT);
         $output->writeln("<info>$index</info>");
     }
 }

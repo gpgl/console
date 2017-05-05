@@ -1,0 +1,15 @@
+{
+    "uno": {
+        "username": "john",
+        "password": "p@s5"
+    },
+    "dos": {
+        "everything": "all",
+        "something": {
+            "hither": "this",
+            "dither": "that"
+        },
+        "anything": "one",
+        "nothing": "nil"
+    }
+}

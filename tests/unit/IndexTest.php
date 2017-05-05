@@ -156,4 +156,30 @@ class IndexTest extends TestCase
         $this->assertNotContains('hither', $output);
         $this->assertNotContains('dither', $output);
     }
+
+    public function test_shows_index_from_key()
+    {
+        $app = new Application;
+        $app->add(new Index);
+
+        $command = $app->find('index');
+        $commandTester = new CommandTester($command);
+        $commandTester->setInputs([$this->password]);
+        $commandTester->execute(array(
+            'command'  => $command->getName(),
+            '--database' => $this->filename_pw_deep,
+            'index' => ['dos', 'something'],
+        ));
+
+        $output = $commandTester->getDisplay();
+        $this->assertNotContains('uno', $output);
+        $this->assertNotContains('username', $output);
+        $this->assertNotContains('dos', $output);
+        $this->assertNotContains('everything', $output);
+        $this->assertNotContains('something', $output);
+        $this->assertNotContains('anything', $output);
+        $this->assertNotContains('nothing', $output);
+        $this->assertContains('hither', $output);
+        $this->assertContains('dither', $output);
+    }
 }
