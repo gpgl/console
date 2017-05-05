@@ -37,12 +37,7 @@ class GetTest extends TestCase
         ));
 
         $output = $commandTester->getDisplay();
-        $this->assertNotContains('one', $output);
-        $this->assertNotContains('none', $output);
-        $this->assertNotContains('nopw', $output);
-        $this->assertNotContains('two', $output);
-        $this->assertNotContains('nada', $output);
-        $this->assertContains('nill', $output);
+        $this->assertEquals("nill\n", $output);
     }
 
     public function test_gets_array_value()
