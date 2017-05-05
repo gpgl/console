@@ -8,10 +8,13 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Output\OutputInterface;
+use gpgl\console\Commands\Traits\DatabaseOption;
 use gpgl\core\DatabaseManagementSystem;
 use Crypt_GPG_BadPassphraseException;
 
 class Index extends Command {
+    use DatabaseOption;
+
     protected function configure()
     {
         $this
@@ -25,13 +28,7 @@ class Index extends Command {
             // the "--help" option
             ->setHelp('This shows the index of names for all values saved.')
 
-            ->addOption(
-                'database',
-                'd',
-                InputOption::VALUE_REQUIRED,
-                'Filename for database',
-                getenv('GPGL_DB') ?: getenv('HOME').'/.gpgldb'
-            )
+            ->addDatabaseOption()
 
             ->addOption(
                 'limit',
