@@ -30,5 +30,6 @@ $app = new Application($logo, $version);
 
 $app->add(new Commands\Index);
 $app->add(new Commands\Create);
+$app->add(new Commands\Get);
 
 $app->run();
