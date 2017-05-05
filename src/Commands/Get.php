@@ -5,6 +5,7 @@ namespace gpgl\console\Commands;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use gpgl\console\Commands\Traits\DatabaseGateway;
 use gpgl\console\Commands\Traits\IndexArgument;
 
@@ -37,7 +38,18 @@ class Get extends Command {
 
         $from = $input->getArgument('index');
 
-        $value = json_encode($dbms->get(...$from), JSON_PRETTY_PRINT);
-        $output->writeln("<info>$value</info>");
+        $value = $dbms->get(...$from);
+
+        $io = new SymfonyStyle($input, $output);
+
+        if (is_null($value)) {
+            return $io->error('Value is null.');
+        }
+
+        if (is_array($value)) {
+            $value = json_encode($value, JSON_PRETTY_PRINT);
+        }
+
+        $output->writeln($value);
     }
 }

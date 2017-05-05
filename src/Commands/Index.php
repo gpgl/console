@@ -51,6 +51,6 @@ class Index extends Command {
         $from = $input->getArgument('index');
 
         $index = json_encode($dbms->index($limit, ...$from), JSON_PRETTY_PRINT);
-        $output->writeln("<info>$index</info>");
+        $output->writeln($index);
     }
 }

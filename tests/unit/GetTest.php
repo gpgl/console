@@ -44,4 +44,26 @@ class GetTest extends TestCase
         $this->assertNotContains('nada', $output);
         $this->assertContains('nill', $output);
     }
+
+    public function test_gets_array_value()
+    {
+        $app = new Application;
+        $app->add(new Get);
+
+        $command = $app->find('get');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute(array(
+            'command'  => $command->getName(),
+            '--database' => $this->filename_nopw,
+            'index' => ['two'],
+        ));
+
+        $expected = '{
+            "username": "nill",
+            "password": "nada"
+        }';
+
+        $output = $commandTester->getDisplay();
+        $this->assertJsonStringEqualsJsonString($expected, $output);
+    }
 }
