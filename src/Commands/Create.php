@@ -5,15 +5,13 @@ namespace gpgl\console\Commands;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Output\OutputInterface;
-use gpgl\console\Commands\Traits\DatabaseOption;
+use gpgl\console\Commands\Traits\DatabaseGateway;
 use gpgl\core\DatabaseManagementSystem;
 use Crypt_GPG_BadPassphraseException;
 
 class Create extends Command {
-    use DatabaseOption;
+    use DatabaseGateway;
 
     protected function configure()
     {
@@ -51,14 +49,7 @@ class Create extends Command {
             }
 
             catch (Crypt_GPG_BadPassphraseException $ex) {
-                $helper = $this->getHelper('question');
-
-                $question = new Question('Please enter your password: ');
-                $question->setHidden(true);
-
-                $password = $helper->ask($input, $output, $question);
-
-                $dbms = new DatabaseManagementSystem($db, $password);
+                $this->askPassword($input, $output);
             }
         }
 
