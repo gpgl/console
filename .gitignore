@@ -3,3 +3,5 @@
 /tests/coverage/
 .gpgldb
 *.gpg
+gpgl.phar
+gpgl.phar.asc
