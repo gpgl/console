@@ -32,5 +32,6 @@ $app->add(new Commands\Create);
 $app->add(new Commands\Set);
 $app->add(new Commands\Get);
 $app->add(new Commands\Index);
+$app->add(new Commands\Delete);
 
 $app->run();
