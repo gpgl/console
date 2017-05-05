@@ -13,7 +13,7 @@ secured with [The GNU Privacy Guard][2].
 
 [Download the latest release][6], set it executable:
 
-    curl -sL https://github.com/gpgl/console/releases/latest | egrep -o '/gpgl/console/releases/download/[0-9\.]*/gpgl.phar' | wget --base=http://github.com/ -i - -O gpgl && chmod +x gpgl
+    curl -sSL https://github.com/gpgl/console/releases/latest | egrep -o '/gpgl/console/releases/download/[0-9\.]*/gpgl.phar"' | head -c-2 | wget --base=https://github.com/ -i - -O gpgl && chmod +x gpgl
 
 Move it to a good path. For example: make it available system-wide:
 
