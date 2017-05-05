@@ -46,7 +46,7 @@ class CreateTest extends TestCase
         $app = new Application;
         $app->add(new Create);
 
-        $command = $app->find('create');
+        $command = $app->find('new');
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command'  => $command->getName(),
@@ -63,7 +63,7 @@ class CreateTest extends TestCase
         $app = new Application;
         $app->add(new Create);
 
-        $command = $app->find('create');
+        $command = $app->find('new');
         $commandTester = new CommandTester($command);
         $commandTester->setInputs([$this->password]);
         $commandTester->execute(array(
@@ -84,7 +84,7 @@ class CreateTest extends TestCase
         $app = new Application;
         $app->add(new Create);
 
-        $command = $app->find('create');
+        $command = $app->find('new');
         $commandTester = new CommandTester($command);
         $commandTester->setInputs(['bad password']);
 

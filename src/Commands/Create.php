@@ -17,7 +17,7 @@ class Create extends Command {
     {
         $this
             // the name of the command (the part after "bin/console")
-            ->setName('create')
+            ->setName('new')
 
             // the short description shown while running "php bin/console list"
             ->setDescription('Create a new database')
