@@ -52,7 +52,7 @@ class Set extends Command {
             $question = "There is already a value saved under this index.\n ";
             $question .= 'Are you sure you want to overwrite?';
             if (!$io->confirm($question, false)) {
-                return $io->note('Value not saved.');;
+                return $io->note('Value not saved.');
             }
         }
 
