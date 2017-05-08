@@ -8,6 +8,7 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Output\OutputInterface;
 use gpgl\core\DatabaseManagementSystem;
 use Crypt_GPG_BadPassphraseException;
+use gpgl\console\Container;
 
 trait DatabaseGateway
 {
@@ -24,17 +25,19 @@ trait DatabaseGateway
 
     protected function accessDatabase(InputInterface $input, OutputInterface $output) : DatabaseManagementSystem
     {
-        $db = $input->getOption('database');
+        if (is_null(Container::getDbms())) {
+            $db = $input->getOption('database');
 
-        try {
-            $dbms = new DatabaseManagementSystem($db);
+            try {
+                Container::setDbms(new DatabaseManagementSystem($db));
+            }
+
+            catch (Crypt_GPG_BadPassphraseException $ex) {
+                Container::setDbms($this->askPassword($input, $output));
+            }
         }
 
-        catch (Crypt_GPG_BadPassphraseException $ex) {
-            $dbms = $this->askPassword($input, $output);
-        }
-
-        return $dbms;
+        return Container::getDbms();
     }
 
     protected function askPassword(InputInterface $input, OutputInterface $output) : DatabaseManagementSystem

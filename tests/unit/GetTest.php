@@ -4,6 +4,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use gpgl\console\Commands\Get;
+use gpgl\console\Container;
 
 class GetTest extends TestCase
 {
@@ -21,6 +22,12 @@ class GetTest extends TestCase
     protected function setUp()
     {
         putenv('GPGL_DB');
+        Container::unsetDbms();
+    }
+
+    protected function tearDown()
+    {
+        Container::unsetDbms();
     }
 
     public function test_gets_value()

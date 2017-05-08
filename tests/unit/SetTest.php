@@ -5,6 +5,7 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use gpgl\console\Commands\Get;
 use gpgl\console\Commands\Set;
+use gpgl\console\Container;
 
 class SetTest extends TestCase
 {
@@ -25,6 +26,7 @@ class SetTest extends TestCase
         $this->database_pw = file_get_contents($this->filename_pw);
         $this->database_pw_deep = file_get_contents($this->filename_pw_deep);
         $this->database_nopw = file_get_contents($this->filename_nopw);
+        Container::unsetDbms();
     }
 
     protected function tearDown()
@@ -33,6 +35,7 @@ class SetTest extends TestCase
         file_put_contents($this->filename_pw, $this->database_pw);
         file_put_contents($this->filename_pw_deep, $this->database_pw_deep);
         file_put_contents($this->filename_nopw, $this->database_nopw);
+        Container::unsetDbms();
     }
 
     public function test_sets_value()

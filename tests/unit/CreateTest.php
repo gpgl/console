@@ -4,6 +4,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use gpgl\console\Commands\Create;
+use gpgl\console\Container;
 
 class CreateTest extends TestCase
 {
@@ -25,6 +26,8 @@ class CreateTest extends TestCase
         if (file_exists($this->filename_nopw)) {
             unlink(realpath($this->filename_nopw));
         }
+
+        Container::unsetDbms();
     }
 
     protected function tearDown()
@@ -38,6 +41,8 @@ class CreateTest extends TestCase
         if (file_exists($this->filename_nopw)) {
             unlink(realpath($this->filename_nopw));
         }
+
+        Container::unsetDbms();
     }
 
     public function test_creates_database_nopw()
