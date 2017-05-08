@@ -40,7 +40,6 @@ class Connect extends Command {
             'get',
             'set',
             'delete',
-            'save',
             'quit',
         ];
 
