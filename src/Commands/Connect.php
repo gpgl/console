@@ -33,6 +33,8 @@ class Connect extends Command {
     {
         $dbms = $this->accessDatabase($input, $output);
 
+        $output->writeln($this->getApplication()->getLongVersion().PHP_EOL);
+
         $helper = $this->getHelper('question');
 
         $commands = [
@@ -43,12 +45,13 @@ class Connect extends Command {
             'quit',
         ];
 
-        $prompt = '<info>gpgl> </info>';
+        $prompt = '<comment>gpgl> </comment>';
         $prompt = new Question($prompt, 'quit');
         $prompt->setAutocompleterValues($commands);
 
         while ('quit' !== $exec = $helper->ask($input, $output, $prompt)) {
             $command = $this->getApplication()->find(strtok($exec, " "));
+            $output->writeln('');
             $command->run(new StringInput($exec), $output);
             $output->writeln('');
         }
