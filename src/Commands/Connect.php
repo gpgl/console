@@ -37,13 +37,13 @@ class Connect extends Command {
 
         $helper = $this->getHelper('question');
 
-        $commands = [
+        $commands = array_merge([
             'index',
             'get',
             'set',
             'delete',
             'quit',
-        ];
+        ], $this->getAutocompletedCommands($dbms->index(0)));
 
         $prompt = '<comment>gpgl> </comment>';
         $prompt = new Question($prompt, 'quit');
@@ -55,5 +55,30 @@ class Connect extends Command {
             $command->run(new StringInput($exec), $output);
             $output->writeln('');
         }
+    }
+
+    protected function getRecursiveIndexes(array $indices, string $parent = '') : array
+    {
+        $indexes = [];
+
+        foreach ($indices as $index => $value) {
+            $indexes []= $current = "{$parent}{$index} ";
+            if (is_array($value)) {
+                $indexes = array_merge($indexes, $this->getRecursiveIndexes($value, $current));
+            }
+        }
+
+        return $indexes;
+    }
+
+    protected function getAutocompletedCommands(array $indices) : array
+    {
+        $indexes = $this->getRecursiveIndexes($indices);
+
+        // https://stackoverflow.com/a/28115783/4233593
+        $get = preg_filter('/^/', 'get ', $indexes);
+        $delete = preg_filter('/^/', 'delete ', $indexes);
+
+        return array_merge($get, $delete);
     }
 }
