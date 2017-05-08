@@ -50,6 +50,7 @@ class Connect extends Command {
         while ('quit' !== $exec = $helper->ask($input, $output, $prompt)) {
             $command = $this->getApplication()->find(strtok($exec, " "));
             $command->run(new StringInput($exec), $output);
+            $output->writeln('');
         }
     }
 }
