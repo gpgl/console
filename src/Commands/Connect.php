@@ -44,7 +44,7 @@ class Connect extends Command {
             'quit',
         ];
 
-        $prompt = 'gpgl> ';
+        $prompt = '<info>gpgl> </info>';
         $prompt = new Question($prompt, 'quit');
         $prompt->setAutocompleterValues($commands);
 
