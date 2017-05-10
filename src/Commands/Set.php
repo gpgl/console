@@ -25,7 +25,10 @@ class Set extends Command {
 
             // the full command description shown when running the command with
             // the "--help" option
-            ->setHelp('Saves a value in the locker under a given index.')
+            ->setHelp(
+                'Saves a value in the locker under a given index.'.
+                PHP_EOL.PHP_EOL.static::getWarningMessage()
+            )
 
             ->addDatabaseOption()
 
@@ -39,6 +42,14 @@ class Set extends Command {
         ;
     }
 
+    public static function getWarningMessage() : string
+    {
+        return
+            'WARNING: Using this command may save sensitive values '.
+            'in plain text to your shell history.'.PHP_EOL.
+            'Use Connect and Set instead.';
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $dbms = $this->accessDatabase($input, $output);
@@ -47,6 +58,10 @@ class Set extends Command {
         $at = $input->getArgument('index');
 
         $io = new SymfonyStyle($input, $output);
+
+        if (!Connect::isConnected()) {
+            $io->warning(static::getWarningMessage());
+        }
 
         if (!empty($dbms->get(...$at))) {
             $question = "There is already a value saved under this index.\n ";

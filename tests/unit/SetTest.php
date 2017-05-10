@@ -70,6 +70,10 @@ class SetTest extends TestCase
         ));
         $output = $commandTester->getDisplay();
         $this->assertContains('Value Saved', $output);
+        $this->assertContains(
+            'WARNING: Using this command may save sensitive values in plain text',
+            $output
+        );
 
         $app->add(new Get);
         $command = $app->find('get');

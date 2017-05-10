@@ -12,6 +12,12 @@ use gpgl\console\Commands\Traits\DatabaseGateway;
 class Connect extends Command {
     use DatabaseGateway;
 
+    protected static $connected = false;
+    public static function isConnected() : bool
+    {
+        return static::$connected;
+    }
+
     protected function configure()
     {
         $this
@@ -32,6 +38,7 @@ class Connect extends Command {
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $dbms = $this->accessDatabase($input, $output);
+        static::$connected = true;
 
         $output->writeln($this->getApplication()->getLongVersion().PHP_EOL);
 
@@ -55,6 +62,8 @@ class Connect extends Command {
             $command->run(new StringInput($exec), $output);
             $output->writeln('');
         }
+
+        static::$connected = false;
     }
 
     protected function getRecursiveIndexes(array $indices, string $parent = '') : array
