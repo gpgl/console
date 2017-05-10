@@ -27,6 +27,13 @@ Use the `-h` flag with any command to get help with usage:
 
     gpgl <command> -h
 
+## Testing
+
+Because the tests require access to your GPG keyring and fixtures need specific
+secret keys present, it's best to run them inside [the pre-built Docker container][18].
+
+    docker run --rm -it -v "$PWD":/code gpgl/test-core
+
 [1]:http://symfony.com/doc/current/components/console.html
 [2]:https://www.gnupg.org/
 [4]:https://github.com/gpgl/console/issues
@@ -40,3 +47,4 @@ Use the `-h` flag with any command to get help with usage:
 [13]:https://github.com/composer/composer/issues/4072
 [14]:https://codecov.io/gh/gpgl/console/branch/master
 [16]:https://img.shields.io/codecov/c/github/gpgl/console/master.svg
+[18]:https://hub.docker.com/r/gpgl/test-core/
