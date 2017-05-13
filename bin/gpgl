@@ -34,5 +34,6 @@ $app->add(new Commands\Get);
 $app->add(new Commands\Index);
 $app->add(new Commands\Delete);
 $app->add(new Commands\Connect);
+$app->add(new Commands\Push);
 
 $app->run();

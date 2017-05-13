@@ -11,7 +11,8 @@
     "bin": ["bin/gpgl"],
     "require": {
         "symfony/console": "^3.2",
-        "gpgl/core": "^0.1"
+        "gpgl/core": "^0.1",
+        "guzzlehttp/guzzle": "^6.2"
     },
     "autoload": {
         "psr-4": {
