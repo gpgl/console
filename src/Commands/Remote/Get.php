@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use gpgl\console\Commands\Traits\DatabaseGateway;
 
-class Push extends Command {
+class Remote extends Command {
     use DatabaseGateway;
 
     protected function configure()

@@ -4,21 +4,16 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "4a4cc7d9e32dba0722b6cbe1cd7bb939",
+    "content-hash": "a02928253a5d589ceea99ac1edc092dd",
     "packages": [
         {
             "name": "gpgl/core",
-            "version": "0.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/gpgl/core.git",
-                "reference": "9392fd503334832fb49bdd245970510192d03079"
-            },
+            "version": "dev-meta",
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/gpgl/core/zipball/9392fd503334832fb49bdd245970510192d03079",
-                "reference": "9392fd503334832fb49bdd245970510192d03079",
-                "shasum": ""
+                "type": "path",
+                "url": "/home/xenial/scratch/gpgl/core",
+                "reference": "f0421b1dda0fd3326280fb2fe9ae0c8ab3b4629b",
+                "shasum": null
             },
             "require": {
                 "pear/crypt_gpg": "^1.6",
@@ -33,7 +28,6 @@
                     "gpgl\\core\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-3.0+"
             ],
@@ -43,8 +37,7 @@
                     "email": "jeff@jeffpuckett.com"
                 }
             ],
-            "description": "Core library for the GPL PHP GPG Locker.",
-            "time": "2017-05-05T20:35:11+00:00"
+            "description": "Core library for the GPL PHP GPG Locker."
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -2124,7 +2117,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "gpgl/core": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
