@@ -28,10 +28,10 @@ class Get extends Command {
             ->addDatabaseOption()
 
             ->addArgument(
-            'alias',
-            InputArgument::OPTIONAL,
-            'Specific remote for which to return credentials'
-        )
+                'alias',
+                InputArgument::OPTIONAL,
+                'Specific remote for which to return credentials'
+            )
         ;
     }
 
