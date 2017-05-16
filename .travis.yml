@@ -1,9 +1,12 @@
 sudo: required
 services:
   - docker
+before_install:
+  - docker build -t gpgl/test-console ./tests/docker
 install:
-  - docker run --rm -it -v "$PWD":/code gpgl/test-core composer install
+  - docker run --rm -it -v "$PWD":/code/console gpgl/test-console composer install
 script:
-  - docker run --rm -it -v "$PWD":/code gpgl/test-core ./vendor/bin/phpunit --coverage-clover=coverage.xml
+  - docker run --rm -it -v "$PWD":/code/console gpgl/test-console
 after_success:
+  - cd tests/coverage/
   - bash <(curl -s https://codecov.io/bash)
