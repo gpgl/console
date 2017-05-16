@@ -14,12 +14,6 @@
         "gpgl/core": "dev-meta",
         "guzzlehttp/guzzle": "^6.2"
     },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "/home/xenial/scratch/gpgl/core"
-        }
-    ],
     "autoload": {
         "psr-4": {
             "gpgl\\console\\": "src/"
