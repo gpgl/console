@@ -35,8 +35,8 @@ class Push extends Command {
             )
 
             ->addOption(
-                'remote',
-                'r',
+                'url',
+                'u',
                 InputOption::VALUE_REQUIRED,
                 'URL to remote server'
             )
@@ -52,14 +52,14 @@ class Push extends Command {
                 'save',
                 's',
                 InputOption::VALUE_NONE,
-                'Save the remote. Requires --name, --remote, and --token options'
+                'Save the remote. Requires --name, --url, and --token options'
             )
 
             ->addOption(
                 'save-default',
                 'D',
                 InputOption::VALUE_NONE,
-                'Save the remote as default. Requires --name, --remote, and --token options'
+                'Save the remote as default. Requires --name, --url, and --token options'
             )
         ;
     }
@@ -70,7 +70,7 @@ class Push extends Command {
 
         $token = $input->getOption('token');
 
-        $remote = $input->getOption('remote');
+        $url = $input->getOption('url');
 
         $gpgldb = fopen($dbms->getFilename(), 'r');
 
@@ -80,7 +80,7 @@ class Push extends Command {
 
         $client = new \GuzzleHttp\Client;
 
-        $response = $client->put($remote, [
+        $response = $client->put($url, [
             'headers' => $headers,
             'body' => $gpgldb,
         ]);
