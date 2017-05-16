@@ -18,12 +18,13 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* blob.tar.gz node_modules/
 
-COPY database.sqlite /code/server/database/database.sqlite
-COPY run.bash /
+COPY run.bash fixtures/database.sqlite /
+COPY fixtures/oauth-private.key fixtures/oauth-public.key /code/server/storage/
 
 ENV APP_KEY="base64:p4cjma5FQm2B8Lk4T83dr5a4GPuYnsgl9VblIs3GZxE=" \
     APP_DEBUG=true \
-    DB_CONNECTION=sqlite
+    DB_CONNECTION=sqlite \
+    DB_DATABASE=/database.sqlite
 
 WORKDIR /code/console
 
