@@ -34,6 +34,8 @@ $app->add(new Commands\Get);
 $app->add(new Commands\Index);
 $app->add(new Commands\Delete);
 $app->add(new Commands\Connect);
-$app->add(new Commands\Push);
+$app->add(new Commands\Remote\Get);
+$app->add(new Commands\Remote\Set);
+$app->add(new Commands\Remote\Push);
 
 $app->run();

@@ -3,10 +3,10 @@
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
-use gpgl\console\Commands\Push;
+use gpgl\console\Commands\Remote\Push;
 use gpgl\console\Container;
 
-class PushTest extends TestCase
+class RemotePushTest extends TestCase
 {
     protected $filename_nopw = __DIR__.'/../fixtures/nopw.gpgldb';
     protected $database_nopw;
@@ -34,7 +34,7 @@ class PushTest extends TestCase
         $app = new Application;
 
         $app->add(new Push);
-        $command = $app->find('push');
+        $command = $app->find('remote:push');
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command'  => $command->getName(),
@@ -53,7 +53,7 @@ class PushTest extends TestCase
         $app = new Application;
 
         $app->add(new Push);
-        $command = $app->find('push');
+        $command = $app->find('remote:push');
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command'  => $command->getName(),

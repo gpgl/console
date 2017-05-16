@@ -1,6 +1,6 @@
 <?php
 
-namespace gpgl\console\Commands;
+namespace gpgl\console\Commands\Remote;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,7 +16,7 @@ class Push extends Command {
     {
         $this
             // the name of the command (the part after "bin/console")
-            ->setName('push')
+            ->setName('remote:push')
 
             // the short description shown while running "php bin/console list"
             ->setDescription('Push database to server')
