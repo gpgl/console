@@ -8,6 +8,11 @@ use gpgl\console\Container;
 
 class RemotePushTest extends TestCase
 {
+    protected $filename_pw_deep = __DIR__.'/../fixtures/pw.deep.gpgldb';
+    protected $database_pw_deep;
+    protected $key_pw = 'jeff@example.com';
+    protected $password = 'password';
+
     protected $filename_nopw = __DIR__.'/../fixtures/nopw.gpgldb';
     protected $database_nopw;
     protected $key_nopw = 'nopassword@example.com';
@@ -19,6 +24,7 @@ class RemotePushTest extends TestCase
     {
         putenv('GPGL_DB');
         $this->database_nopw = file_get_contents($this->filename_nopw);
+        $this->database_pw_deep = file_get_contents($this->filename_pw_deep);
         Container::unsetDbms();
     }
 
@@ -26,6 +32,7 @@ class RemotePushTest extends TestCase
     {
         putenv('GPGL_DB');
         file_put_contents($this->filename_nopw, $this->database_nopw);
+        file_put_contents($this->filename_pw_deep, $this->database_pw_deep);
         Container::unsetDbms();
     }
 
@@ -65,5 +72,23 @@ class RemotePushTest extends TestCase
         $output = $commandTester->getDisplay();
         $this->assertContains('push failed', $output);
         $this->assertNotContains('push successful', $output);
+    }
+
+    public function test_pushes_default()
+    {
+        $app = new Application;
+
+        $app->add(new Push);
+        $command = $app->find('remote:push');
+        $commandTester = new CommandTester($command);
+        $commandTester->setInputs([$this->password]);
+        $commandTester->execute(array(
+            'command'  => $command->getName(),
+            '--database' => $this->filename_pw_deep,
+        ));
+
+        $output = $commandTester->getDisplay();
+        $this->assertNotContains('push failed', $output);
+        $this->assertContains('push successful', $output);
     }
 }

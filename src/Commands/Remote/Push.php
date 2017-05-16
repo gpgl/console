@@ -54,9 +54,14 @@ class Push extends Command {
     {
         $dbms = $this->accessDatabase($input, $output);
 
+        $url = $input->getOption('url');
         $token = $input->getOption('token');
 
-        $url = $input->getOption('url');
+        if (!isset($url, $token)) {
+            $remote = $dbms->remote()->default();
+            $url = $remote->url();
+            $token = $remote->token();
+        }
 
         $gpgldb = fopen($dbms->getFilename(), 'r');
 
