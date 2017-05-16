@@ -8,15 +8,15 @@ RUN apt-get update && \
     apt-get install -y nodejs php-sqlite3 && \
     mkdir -p /code/server/ && \
     cd /code/server/ && \
-    curl -sLO https://github.com/gpgl/server/archive/blob.tar.gz && \
-    tar zxfv blob.tar.gz --strip 1 && \
+    curl -sLO https://github.com/gpgl/server/archive/master.tar.gz && \
+    tar zxfv master.tar.gz --strip 1 && \
     composer install --no-dev && \
     npm install && \
     npm run prod && \
     apt-get purge -y curl nodejs && \
     apt-get autoremove -y && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* blob.tar.gz node_modules/
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* master.tar.gz node_modules/
 
 COPY run.bash fixtures/database.sqlite /
 COPY fixtures/oauth-private.key fixtures/oauth-public.key /code/server/storage/
