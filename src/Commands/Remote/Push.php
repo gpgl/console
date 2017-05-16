@@ -47,20 +47,6 @@ class Push extends Command {
                 InputOption::VALUE_REQUIRED,
                 'Authorization token to remote server'
             )
-
-            ->addOption(
-                'save',
-                's',
-                InputOption::VALUE_NONE,
-                'Save the remote. Requires --name, --url, and --token options'
-            )
-
-            ->addOption(
-                'save-default',
-                'D',
-                InputOption::VALUE_NONE,
-                'Save the remote as default. Requires --name, --url, and --token options'
-            )
         ;
     }
 

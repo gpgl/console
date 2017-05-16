@@ -37,5 +37,6 @@ $app->add(new Commands\Connect);
 $app->add(new Commands\Remote\Get);
 $app->add(new Commands\Remote\Set);
 $app->add(new Commands\Remote\Push);
+$app->add(new Commands\Remote\Defaulter);
 
 $app->run();
