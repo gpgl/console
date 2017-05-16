@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gpgl/core.git",
-                "reference": "5f4ef154260613cb53788d9974f6fb9bf9b6f98e"
+                "reference": "b0fa0ed340041483887c9939cc16e95e307236f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gpgl/core/zipball/5f4ef154260613cb53788d9974f6fb9bf9b6f98e",
-                "reference": "5f4ef154260613cb53788d9974f6fb9bf9b6f98e",
+                "url": "https://api.github.com/repos/gpgl/core/zipball/b0fa0ed340041483887c9939cc16e95e307236f9",
+                "reference": "b0fa0ed340041483887c9939cc16e95e307236f9",
                 "shasum": ""
             },
             "require": {
@@ -44,7 +44,7 @@
                 }
             ],
             "description": "Core library for the GPL PHP GPG Locker.",
-            "time": "2017-05-15 21:09:17"
+            "time": "2017-05-16 20:58:56"
         },
         {
             "name": "guzzlehttp/guzzle",
