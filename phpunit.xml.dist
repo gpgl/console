@@ -9,7 +9,11 @@
         processIsolation="false"
         stopOnFailure="false">
     <testsuites>
-        <testsuite name="GPGL Console Test Suite">
+        <testsuite name="Integration Test Suite">
+            <file>./tests/integration/RemotePushTest.php</file>
+            <file>./tests/integration/RemotePullTest.php</file>
+        </testsuite>
+        <testsuite name="Unit Test Suite">
             <directory>./tests/unit</directory>
         </testsuite>
     </testsuites>
