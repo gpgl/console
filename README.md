@@ -29,10 +29,61 @@ Use the `-h` flag with any command to get help with usage:
 
 ## Testing
 
-Because the tests require access to your GPG keyring and fixtures need specific
-secret keys present, it's best to run them inside [the pre-built Docker container][18].
+The tests require access to a GPG keyring with specific secret keys present,
+and the integration suite needs an active server running with database fixtures.
 
-    docker run --rm -it -v "$PWD":/code gpgl/test-core
+This consistent environment is loaded in [the pre-built Docker container][18].
+
+    docker run --rm -it -v "$PWD":/code/console gpgl/test-console
+
+Code coverage HTML reports are generated in the `./tests/coverage` folder.
+
+    php -S localhost:8686 -t ./tests/coverage/
+
+You can customize the container entry command script in [run.bash][19].
+
+    docker run --rm -it -v "$PWD"/tests/docker/run.bash:/run.bash -v "$PWD":/code/console gpgl/test-console
+
+When developing new features which cross-cut console, core, and server,
+you can mount volumes for all the source directories into the container.
+It's convenient to locally house all three repositories in one folder.
+
+    .
+    ├── console
+    ├── core
+    └── server
+
+Then delete the core library from the console's vendor directory
+and symlink your local copy.
+
+    rm -rf ./vendor/gpgl/core
+    ln -s ../../../core/ ./vendor/gpgl/core
+
+Your directory structure should look like this:
+
+    .
+    ├── console
+    │   └── vendor
+    │       ├── ...
+    │       └── gpgl
+    │           └── core -> ../../../core/
+    ├── core
+    └── server
+
+And finally run the container mounting all your local volumes.
+
+    docker run --rm -it -v "$PWD":/code/console -v "$PWD"/../core:/code/core -v "$PWD"/../server:/code/server gpgl/test-console
+
+You may also want to override environment variables for server set in [Dockerfile][20].
+
+If you want to change the server database test fixtures,
+the sqlite database is mounted at the root of the container.
+
+    docker run --rm -it -v /path/to/database.sqlite:/database.sqlite -v "$PWD":/code/console gpgl/test-console
+
+The [Dockerfile][20] is included for customizing fixtures and platform dependencies.
+
+    docker build -t gpgl/test-console:MyTag ./tests/docker
 
 [1]:http://symfony.com/doc/current/components/console.html
 [2]:https://www.gnupg.org/
@@ -47,4 +98,6 @@ secret keys present, it's best to run them inside [the pre-built Docker containe
 [13]:https://github.com/composer/composer/issues/4072
 [14]:https://codecov.io/gh/gpgl/console/branch/master
 [16]:https://img.shields.io/codecov/c/github/gpgl/console/master.svg
-[18]:https://hub.docker.com/r/gpgl/test-core/
+[18]:https://hub.docker.com/r/gpgl/test-console/
+[19]:./tests/docker/run.bash
+[20]:./tests/docker/Dockerfile
