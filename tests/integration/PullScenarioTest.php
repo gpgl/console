@@ -78,5 +78,6 @@ class PullScenarioTest extends TestCase
         $output = $commandTester->getDisplay();
         $this->assertContains($expects, $output);
         $this->assertNotContains($notExpects, $output);
+        $this->assertNotContains('pull failed', $output);
     }
 }
