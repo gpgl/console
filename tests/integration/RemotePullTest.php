@@ -52,7 +52,7 @@ class RemotePullTest extends TestCase
 
         $output = $commandTester->getDisplay();
         $this->assertNotContains('pull failed', $output);
-        $this->assertContains('pull successful', $output);
+        $this->assertContains('nothing to pull', $output);
     }
 
     public function test_pulls_default()
@@ -70,6 +70,6 @@ class RemotePullTest extends TestCase
 
         $output = $commandTester->getDisplay();
         $this->assertNotContains('pull failed', $output);
-        $this->assertContains('pull successful', $output);
+        $this->assertContains('remote is same', $output);
     }
 }

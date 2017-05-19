@@ -91,7 +91,7 @@ class RemotePushPullTest extends TestCase
         $commandTester->setInputs([$this->password]);
         $commandTester->execute(array(
             'command'  => $command->getName(),
-            '--database' => $this->filename_pw_deep,
+            '--database' => $this->filename_nopw,
             '--url' => $this->url,
             '--token' => $this->token,
         ));
