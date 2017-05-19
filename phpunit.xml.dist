@@ -13,6 +13,7 @@
             <file>./tests/integration/RemotePushTest.php</file>
             <file>./tests/integration/RemotePullTest.php</file>
             <file>./tests/integration/RemotePushPullTest.php</file>
+            <file>./tests/integration/PullScenarioTest.php</file>
         </testsuite>
         <testsuite name="Unit Test Suite">
             <directory>./tests/unit</directory>
