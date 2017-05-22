@@ -12,9 +12,13 @@ use gpgl\core\DatabaseManagementSystem;
 use gpgl\core\History;
 use Crypt_GPG_BadPassphraseException;
 use gpgl\console\Container;
+use GuzzleHttp\Client as Guzzle;
 
 class Push extends Command {
     use DatabaseGateway;
+
+    protected $io;
+    protected $client;
 
     protected function configure()
     {
@@ -56,6 +60,8 @@ class Push extends Command {
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->io = new SymfonyStyle($input, $output);
+
         $dbms = $this->accessDatabase($input, $output);
 
         $url = $input->getOption('url');
@@ -71,39 +77,30 @@ class Push extends Command {
             'Authorization' => "Bearer $token",
         ];
 
-        $client = new \GuzzleHttp\Client;
+        $this->client = new Guzzle;
 
-        $response = $client->get($url, [
+        $response = $this->client->get($url, [
             'headers' => $headers,
             'allow_redirects' => false,
         ]);
 
-        $io = new SymfonyStyle($input, $output);
-
-        if ($response->getStatusCode() !== 200) {
-            return $io->error('push failed. could not fetch remote.');
+        if ($response->getStatusCode() === 204) {
+            return $this->put($dbms, $url, $headers);
         }
 
-        $evaluation = $this->evaluate($dbms, $response->getBody(), $io);
+        if ($response->getStatusCode() !== 200) {
+            return $this->io->error('push failed. could not fetch remote.');
+        }
+
+        $evaluation = $this->evaluate($dbms, $response->getBody());
         if ( true !== $evaluation ) {
             return;
         }
 
-        $gpgldb = fopen($dbms->getFilename(), 'r');
-        $response = $client->put($url, [
-            'headers' => $headers,
-            'allow_redirects' => false,
-            'body' => $gpgldb,
-        ]);
-
-        if ($response->getStatusCode() === 204) {
-            return $io->success('push successful');
-        }
-
-        return $io->error('push failed');
+        return $this->put($dbms, $url, $headers);
     }
 
-    protected function evaluate(DatabaseManagementSystem $dbms, string $remote, SymfonyStyle $io)
+    protected function evaluate(DatabaseManagementSystem $dbms, string $remote)
     {
         $filename = tempnam(realpath(sys_get_temp_dir()), 'gpgldb_remote_');
         file_put_contents($filename, $remote);
@@ -123,26 +120,42 @@ class Push extends Command {
             case History::PARENT:
                 return true;
             case History::SAME:
-                return $io->note([
+                return $this->io->note([
                     'remote is same',
                     'nothing to push',
                 ]);
             case History::CHILD:
-                return $io->note([
+                return $this->io->note([
                     'remote is child',
                     'nothing to push',
                     'did you mean to pull?',
                 ]);
             case History::DIVERGED:
-                return $io->error([
+                return $this->io->error([
                     'remote is diverged',
                     'aborting',
                 ]);
             case History::UNRELATED:
-                return $io->error([
+                return $this->io->error([
                     'remote is unrelated',
                     'aborting',
                 ]);
         }
+    }
+
+    protected function put(DatabaseManagementSystem $dbms, string $url, array $headers)
+    {
+        $gpgldb = fopen($dbms->getFilename(), 'r');
+        $response = $this->client->put($url, [
+            'headers' => $headers,
+            'allow_redirects' => false,
+            'body' => $gpgldb,
+        ]);
+
+        if ($response->getStatusCode() === 204) {
+            return $this->io->success('push successful');
+        }
+
+        return $this->io->error('push failed');
     }
 }
