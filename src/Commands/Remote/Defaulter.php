@@ -33,12 +33,26 @@ class Defaulter extends Command {
                 InputOption::VALUE_REQUIRED,
                 'Specifying an existing remote will set it as the default'
             )
+
+            ->addOption(
+                'unset',
+                null,
+                InputOption::VALUE_NONE,
+                'Removes the default setting for a remote'
+            )
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $dbms = $this->accessDatabase($input, $output);
+
+        if ($input->getOption('unset')) {
+            $dbms->remote()->unsetDefault();
+            $dbms->export();
+            $io = new SymfonyStyle($input, $output);
+            return $io->success('Default Remote Removed');
+        }
 
         if (!is_null($alias = $input->getOption('alias'))) {
             $dbms->remote()->default($alias);

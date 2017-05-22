@@ -3,7 +3,7 @@
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
-use gpgl\console\Commands\Remote\{Get,Set};
+use gpgl\console\Commands\Remote\{Get,Set,Unsetter};
 use gpgl\console\Container;
 
 class RemoteSetTest extends TestCase
@@ -60,5 +60,71 @@ class RemoteSetTest extends TestCase
         $actual = $commandTester->getDisplay();
 
         $this->assertJsonStringEqualsJsonString(json_encode($expected), $actual);
+    }
+
+    /**
+     * @expectedException \gpgl\core\Exceptions\MissingRemote
+     */
+    public function test_unsets_remote()
+    {
+        $expected = [
+            'url' => 'https://gpgl.example.org/api/v1/databases/678',
+            'token' => random_str(32),
+        ];
+
+        $app = new Application;
+        $app->add(new Set);
+        $command = $app->find('remote:set');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute([
+            'command'  => $command->getName(),
+            '--database' => $this->filename_nopw,
+            'alias' => 'name',
+            'url' => $expected['url'],
+            'token' => $expected['token'],
+        ]);
+
+        Container::unsetDbms();
+
+        $app = new Application;
+        $app->add(new Get);
+        $command = $app->find('remote:get');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute([
+            'command'  => $command->getName(),
+            '--database' => $this->filename_nopw,
+            'alias' => 'name',
+        ]);
+
+        $actual = $commandTester->getDisplay();
+
+        $this->assertJsonStringEqualsJsonString(json_encode($expected), $actual);
+
+        Container::unsetDbms();
+
+        $app = new Application;
+        $app->add(new Unsetter);
+        $command = $app->find('remote:unset');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute([
+            'command'  => $command->getName(),
+            '--database' => $this->filename_nopw,
+            'alias' => 'name',
+        ]);
+
+        $actual = $commandTester->getDisplay();
+        $this->assertContains('Unset Successfully', $actual);
+
+        Container::unsetDbms();
+
+        $app = new Application;
+        $app->add(new Get);
+        $command = $app->find('remote:get');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute([
+            'command'  => $command->getName(),
+            '--database' => $this->filename_nopw,
+            'alias' => 'name',
+        ]);
     }
 }

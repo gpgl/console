@@ -72,4 +72,49 @@ class RemoteDefaulterTest extends TestCase
         $output = $commandTester->getDisplay();
         $this->assertContains('origin', $output);
     }
+
+    /**
+     * @expectedException \gpgl\core\Exceptions\MissingRemote
+     */
+    public function test_unsets_default()
+    {
+        $app = new Application;
+        $app->add(new Defaulter);
+        $command = $app->find('remote:default');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute(array(
+            'command'  => $command->getName(),
+            '--database' => $this->filename_nopw,
+            '--alias' => 'origin'
+        ));
+
+        $output = $commandTester->getDisplay();
+        $this->assertContains('Default Remote Saved', $output);
+
+        Container::unsetDbms();
+
+        $app = new Application;
+        $app->add(new Defaulter);
+        $command = $app->find('remote:default');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute(array(
+            'command'  => $command->getName(),
+            '--database' => $this->filename_nopw,
+            '--unset' => true,
+        ));
+
+        $output = $commandTester->getDisplay();
+        $this->assertContains('Default Remote Removed', $output);
+
+        Container::unsetDbms();
+
+        $app = new Application;
+        $app->add(new Defaulter);
+        $command = $app->find('remote:default');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute(array(
+            'command'  => $command->getName(),
+            '--database' => $this->filename_nopw,
+        ));
+    }
 }
