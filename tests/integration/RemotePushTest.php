@@ -36,25 +36,6 @@ class RemotePushTest extends TestCase
         Container::unsetDbms();
     }
 
-    public function test_pushes_value()
-    {
-        $app = new Application;
-
-        $app->add(new Push);
-        $command = $app->find('remote:push');
-        $commandTester = new CommandTester($command);
-        $commandTester->execute(array(
-            'command'  => $command->getName(),
-            '--database' => $this->filename_nopw,
-            '--url' => $this->url,
-            '--token' => $this->token,
-        ));
-
-        $output = $commandTester->getDisplay();
-        $this->assertNotContains('push failed', $output);
-        $this->assertContains('push successful', $output);
-    }
-
     public function test_rejects_token()
     {
         $app = new Application;
@@ -89,6 +70,6 @@ class RemotePushTest extends TestCase
 
         $output = $commandTester->getDisplay();
         $this->assertNotContains('push failed', $output);
-        $this->assertContains('push successful', $output);
+        $this->assertContains('remote is same', $output);
     }
 }

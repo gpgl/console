@@ -75,6 +75,7 @@ class Pull extends Command {
 
         $response = $client->get($url, [
             'headers' => $headers,
+            'allow_redirects' => false,
         ]);
 
         $io = new SymfonyStyle($input, $output);
