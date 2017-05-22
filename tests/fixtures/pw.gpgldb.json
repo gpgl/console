@@ -1,10 +1,12 @@
 {
-    "first": {
-        "username": "jeff",
-        "password": "pass"
-    },
-    "second": {
-        "username": "puck",
-        "password": "P@55"
+    "data": {
+        "first": {
+            "username": "jeff",
+            "password": "pass"
+        },
+        "second": {
+            "username": "puck",
+            "password": "P@55"
+        }
     }
 }
