@@ -51,15 +51,29 @@ class Pull extends Command {
                 InputOption::VALUE_REQUIRED,
                 'Authorization token to remote server'
             )
+
+            ->addOption(
+                'new',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Filename for creating new database'
+            )
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $dbms = $this->accessDatabase($input, $output);
+        $io = new SymfonyStyle($input, $output);
 
         $url = $input->getOption('url');
         $token = $input->getOption('token');
+        $filename = $input->getOption('new');
+
+        if (isset($filename)) {
+            return $this->create($url, $token, $filename, $io);
+        }
+
+        $dbms = $this->accessDatabase($input, $output);
 
         if (!isset($url, $token)) {
             $remote = $dbms->remote()->default();
@@ -77,8 +91,6 @@ class Pull extends Command {
             'headers' => $headers,
             'allow_redirects' => false,
         ]);
-
-        $io = new SymfonyStyle($input, $output);
 
         if ($response->getStatusCode() === 200) {
             return $this->evaluate($dbms, $response->getBody(), $io);
@@ -138,5 +150,41 @@ class Pull extends Command {
         }
 
         return $io->success('pull successful');
+    }
+
+    protected function create($url, $token, string $filename, SymfonyStyle $io)
+    {
+        if (!isset($url, $token)) {
+            return $io->error('URL and token required for pulling new database');
+        }
+
+        if (file_exists($filename)) {
+            return $io->error("Error: $filename exists. Cannot overwrite.");
+        }
+
+        if (false === touch($filename)) {
+            return $io->error("Error: $filename is not writable.");
+        }
+
+        $headers = [
+            'Authorization' => "Bearer $token",
+        ];
+
+        $client = new \GuzzleHttp\Client;
+
+        $response = $client->get($url, [
+            'headers' => $headers,
+            'allow_redirects' => false,
+        ]);
+
+        if ($response->getStatusCode() === 200) {
+            if (false === file_put_contents($filename, $response->getBody())) {
+                return $io->error("Error: could not write to $filename");
+            }
+
+            return $io->success('pull successful');
+        }
+
+        return $io->error('pull failed');
     }
 }
