@@ -24,7 +24,7 @@ $logo = '
 // ASCII art logo:
 // http://www.patorjk.com/software/taag/#p=display&f=Ivrit&t=gpgl
 
-$version = '0.3.0';
+$version = '0.3.0+dev';
 
 $app = new Application($logo, $version);
 
