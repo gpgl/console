@@ -7,20 +7,83 @@
     "content-hash": "fd4180ee520081be2673739ca4c3f62d",
     "packages": [
         {
-            "name": "gpgl/core",
-            "version": "1.1.0",
+            "name": "composer/semver",
+            "version": "1.4.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/gpgl/core.git",
-                "reference": "a8a75c063e32d0efd40fc480e8071d65de4d6822"
+                "url": "https://github.com/composer/semver.git",
+                "reference": "c7cb9a2095a074d131b65a8a0cd294479d785573"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gpgl/core/zipball/a8a75c063e32d0efd40fc480e8071d65de4d6822",
-                "reference": "a8a75c063e32d0efd40fc480e8071d65de4d6822",
+                "url": "https://api.github.com/repos/composer/semver/zipball/c7cb9a2095a074d131b65a8a0cd294479d785573",
+                "reference": "c7cb9a2095a074d131b65a8a0cd294479d785573",
                 "shasum": ""
             },
             "require": {
+                "php": "^5.3.2 || ^7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.5 || ^5.0.5",
+                "phpunit/phpunit-mock-objects": "2.3.0 || ^3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Composer\\Semver\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nils Adermann",
+                    "email": "naderman@naderman.de",
+                    "homepage": "http://www.naderman.de"
+                },
+                {
+                    "name": "Jordi Boggiano",
+                    "email": "j.boggiano@seld.be",
+                    "homepage": "http://seld.be"
+                },
+                {
+                    "name": "Rob Bast",
+                    "email": "rob.bast@gmail.com",
+                    "homepage": "http://robbast.nl"
+                }
+            ],
+            "description": "Semver library that offers utilities, version constraint parsing and validation.",
+            "keywords": [
+                "semantic",
+                "semver",
+                "validation",
+                "versioning"
+            ],
+            "time": "2016-08-30T16:08:34+00:00"
+        },
+        {
+            "name": "gpgl/core",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gpgl/core.git",
+                "reference": "1faa2e01412e7e5a1ac9b33e305261c024a9b5fd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gpgl/core/zipball/1faa2e01412e7e5a1ac9b33e305261c024a9b5fd",
+                "reference": "1faa2e01412e7e5a1ac9b33e305261c024a9b5fd",
+                "shasum": ""
+            },
+            "require": {
+                "composer/semver": "^1.4",
                 "pear/crypt_gpg": "^1.6",
                 "php": "^7.0"
             },
@@ -44,7 +107,7 @@
                 }
             ],
             "description": "Core library for the GPL PHP GPG Locker.",
-            "time": "2017-05-22T20:48:06+00:00"
+            "time": "2017-05-23T22:43:58+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",

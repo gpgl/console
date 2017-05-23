@@ -1,4 +1,7 @@
 {
+    "meta": {
+        "version": "1.2.0"
+    },
     "data": {
         "first": {
             "username": "jeff",
