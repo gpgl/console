@@ -3,17 +3,14 @@ FROM gpgl/test-core
 MAINTAINER Jeff Puckett
 
 RUN apt-get update && \
-    apt-get install -y curl && \
-    curl -sL https://deb.nodesource.com/setup_7.x | bash - && \
-    apt-get install -y nodejs php-sqlite3 && \
+    apt-get install -y curl php-sqlite3 && \
     mkdir -p /code/server/ && \
     cd /code/server/ && \
     curl -sLO https://github.com/gpgl/server/archive/master.tar.gz && \
+    curl -sO https://raw.githubusercontent.com/gpgl/server/master/server.php && \
     tar zxfv master.tar.gz --strip 1 && \
     composer install --no-dev && \
-    npm install && \
-    npm run prod && \
-    apt-get purge -y curl nodejs && \
+    apt-get purge -y curl && \
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* master.tar.gz node_modules/
